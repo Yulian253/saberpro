@@ -1,0 +1,62 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Sistema de Gestion Saber Pro'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring Boot Starters
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	// DevTools (solo desarrollo)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	// Base de datos H2 (desarrollo local)
+	runtimeOnly 'com.h2database:h2'
+	
+	// MySQL (local con XAMPP)
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	
+	// PostgreSQL (para Render - IMPORTANTE)
+	runtimeOnly 'org.postgresql:postgresql'
+	
+	// Testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// Agregar flag -parameters
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs.add("-parameters")
+}

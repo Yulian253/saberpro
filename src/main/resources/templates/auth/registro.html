@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Sistema Saber Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>📝 Crear Cuenta</h1>
+                <p>Sistema de Gestión Saber Pro</p>
+            </div>
+            
+            <!-- Mensajes -->
+            <div th:if="${error}" class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
+            
+            <!-- Formulario de Registro -->
+            <form th:action="@{/registro}" method="post">
+                <div class="form-group">
+                    <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+                    <input type="text" 
+                           id="nombreCompleto" 
+                           name="nombreCompleto" 
+                           class="form-control" 
+                           placeholder="Ej: Juan Pérez García"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="form-control" 
+                           placeholder="correo@ejemplo.com"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username" class="form-label">Nombre de Usuario</label>
+                    <input type="text" 
+                           id="username" 
+                           name="username" 
+                           class="form-control" 
+                           placeholder="Ej: juanperez"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           class="form-control" 
+                           placeholder="Mínimo 6 caracteres"
+                           minlength="6"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="rol" class="form-label">Tipo de Usuario</label>
+                    <select id="rol" name="rol" class="form-control" required>
+                        <option value="ESTUDIANTE" selected>Estudiante</option>
+                        <option value="COORDINADOR">Coordinador</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    Crear Cuenta
+                </button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <p>¿Ya tienes cuenta? <a th:href="@{/login}" style="color: #0B4A75; font-weight: bold;">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

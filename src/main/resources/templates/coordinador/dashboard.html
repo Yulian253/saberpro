@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Coordinador - Sistema Saber Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a th:href="@{/coordinador/dashboard}" class="navbar-brand">🎓 Sistema Saber Pro UTS</a>
+            <ul class="navbar-menu">
+                <li><a th:href="@{/coordinador/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/coordinador/alumnos}">Alumnos</a></li>
+                <li><a th:href="@{/coordinador/informes/basico}">Informes</a></li>
+            </ul>
+            <div class="navbar-user">
+                <span>👤 <span th:text="${usuarioNombre}">Usuario</span></span>
+                <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1 class="mt-4 mb-4" style="color: #0B4A75;">📊 Dashboard del Coordinador</h1>
+
+        <!-- Estadísticas Generales -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-label">Total Alumnos</div>
+                <div class="stat-card-value" th:text="${estadisticas.total}">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-label">Aprobados</div>
+                <div class="stat-card-value" style="color: #28A745;" th:text="${estadisticas.aprobados}">0</div>
+                <div class="badge badge-success" th:text="${estadisticas.porcentajeAprobados} + '%'">0%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-label">Reprobados</div>
+                <div class="stat-card-value" style="color: #DC3545;" th:text="${estadisticas.reprobados}">0</div>
+                <div class="badge badge-danger" th:text="${estadisticas.porcentajeReprobados} + '%'">0%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-label">Promedio General</div>
+                <div class="stat-card-value" th:text="${estadisticas.promedio}">0</div>
+                <div class="badge badge-info">Puntaje</div>
+            </div>
+        </div>
+
+        <!-- Top 10 Mejores Puntajes -->
+        <div class="card">
+            <div class="card-header">🏆 Top 10 - Mejores Puntajes</div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Alumno</th>
+                        <th>Puntaje</th>
+                        <th>Nivel</th>
+                        <th>Beneficio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="resultado, iter : ${top10}">
+                        <td th:text="${iter.index + 1}">1</td>
+                        <td th:text="${resultado.alumno.nombreCompleto}">Nombre</td>
+                        <td>
+                            <strong th:text="${resultado.puntajeSaberPro}">200</strong>
+                        </td>
+                        <td>
+                            <span class="badge badge-success" th:text="${resultado.nivelSaberPro}">Nivel 4</span>
+                        </td>
+                        <td>
+                            <span th:if="${resultado.exoneradoTrabajoGrado}" class="badge badge-info">✓ Con Beneficio</span>
+                            <span th:unless="${resultado.exoneradoTrabajoGrado}" class="badge badge-secondary">Sin Beneficio</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Acciones Rápidas -->
+        <div class="card">
+            <div class="card-header">⚡ Acciones Rápidas</div>
+            <div class="d-flex gap-2">
+                <a th:href="@{/coordinador/alumnos/nuevo}" class="btn btn-primary">➕ Nuevo Alumno</a>
+                <a th:href="@{/coordinador/alumnos}" class="btn btn-info">📋 Ver Todos los Alumnos</a>
+                <a th:href="@{/coordinador/informes/detallado}" class="btn btn-success">📊 Informe Detallado</a>
+                <a th:href="@{/coordinador/informes/beneficios}" class="btn btn-warning">🎁 Ver Beneficios</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

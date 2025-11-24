@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Sistema Saber Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🎓 Sistema Saber Pro</h1>
+                <p>Universidad Tecnológica de Santander</p>
+            </div>
+            
+            <!-- Mensajes -->
+            <div th:if="${success}" class="alert alert-success">
+                <span th:text="${success}"></span>
+            </div>
+            
+            <div th:if="${error}" class="alert alert-danger">
+                <span th:text="${error}"></span>
+            </div>
+            
+            <!-- Formulario de Login -->
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username" class="form-label">Usuario</label>
+                    <input type="text" 
+                           id="username" 
+                           name="username" 
+                           class="form-control" 
+                           placeholder="Ingrese su usuario"
+                           required 
+                           autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           class="form-control" 
+                           placeholder="Ingrese su contraseña"
+                           required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Iniciar Sesión
+                </button>
+            </form>
+            
+            <div class="text-center mt-3">
+                <p>¿No tienes cuenta? <a th:href="@{/registro}" style="color: #0B4A75; font-weight: bold;">Regístrate aquí</a></p>
+            </div>
+            
+            <div class="card mt-4" style="background-color: #F8F9FA; padding: 1rem;">
+                <h4 style="margin-bottom: 0.5rem; color: #0B4A75;">👥 Usuarios de Prueba</h4>
+                <p style="margin: 0.25rem 0; font-size: 0.9rem;"><strong>Coordinador:</strong> usuario: <code>coordinador</code> / contraseña: <code>123456</code></p>
+                <p style="margin: 0.25rem 0; font-size: 0.9rem;"><strong>Estudiante:</strong> usuario: <code>estudiante</code> / contraseña: <code>123456</code></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

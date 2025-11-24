@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alumnos - Sistema Saber Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a th:href="@{/coordinador/dashboard}" class="navbar-brand">🎓 Sistema Saber Pro UTS</a>
+            <ul class="navbar-menu">
+                <li><a th:href="@{/coordinador/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/coordinador/alumnos}">Alumnos</a></li>
+                <li><a th:href="@{/coordinador/informes/basico}">Informes</a></li>
+            </ul>
+            <div class="navbar-user">
+                <span>👤 <span th:text="${usuarioNombre}">Usuario</span></span>
+                <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1 class="mt-4 mb-4" style="color: #0B4A75;">👥 Gestión de Alumnos</h1>
+
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <div class="card">
+            <!-- Barra de herramientas -->
+            <div class="d-flex justify-between align-center mb-3" style="flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <a th:href="@{/coordinador/alumnos/nuevo}" class="btn btn-success">➕ Nuevo Alumno</a>
+                </div>
+
+                <form th:action="@{/coordinador/alumnos}" method="get" class="d-flex gap-2">
+                    <input type="text" 
+                           name="buscar" 
+                           class="form-control" 
+                           placeholder="Buscar por nombre, documento..." 
+                           th:value="${buscar}"
+                           style="width: 300px;">
+                    <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+                    <a th:href="@{/coordinador/alumnos}" class="btn btn-secondary">Limpiar</a>
+                </form>
+            </div>
+
+            <p><strong>Total de Alumnos:</strong> <span th:text="${totalAlumnos}">0</span></p>
+
+            <!-- Tabla de alumnos -->
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombre Completo</th>
+                            <th>Registro ICFES</th>
+                            <th>Puntaje</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="alumno : ${alumnos}">
+                            <td th:text="${alumno.numeroDocumento}">123456</td>
+                            <td th:text="${alumno.nombreCompleto}">Nombre Completo</td>
+                            <td th:text="${alumno.numeroRegistro}">EK123456</td>
+                            <td>
+                                <span th:if="${alumno.resultado != null && alumno.resultado.puntajeSaberPro != null}" 
+                                      th:text="${alumno.resultado.puntajeSaberPro}"
+                                      style="font-weight: bold;">0</span>
+                                <span th:unless="${alumno.resultado != null && alumno.resultado.puntajeSaberPro != null}">-</span>
+                            </td>
+                            <td>
+                                <span th:if="${alumno.resultado != null}" 
+                                      class="badge"
+                                      th:classappend="${alumno.resultado.estadoExamen.name() == 'APROBADO' ? 'badge-success' : (alumno.resultado.estadoExamen.name() == 'REPROBADO' ? 'badge-danger' : 'badge-warning')}"
+                                      th:text="${alumno.resultado.estadoExamen}">Estado</span>
+                                <span th:unless="${alumno.resultado != null}" class="badge badge-secondary">Sin Resultado</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/coordinador/alumnos/detalle/{id}(id=${alumno.id})}" 
+                                   class="btn btn-info btn-sm">👁️ Ver</a>
+                                <a th:href="@{/coordinador/alumnos/{id}/resultado(id=${alumno.id})}" 
+                                   class="btn btn-primary btn-sm">📊 Notas</a>
+                                <a th:href="@{/coordinador/alumnos/editar/{id}(id=${alumno.id})}" 
+                                   class="btn btn-warning btn-sm">✏️ Editar</a>
+                                <a th:href="@{/coordinador/alumnos/eliminar/{id}(id=${alumno.id})}" 
+                                   class="btn btn-danger btn-sm" 
+                                   onclick="return confirm('¿Está seguro de eliminar este alumno?')">🗑️</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${alumnos.empty}" class="text-center p-4">
+                <p style="color: #6C757D;">No se encontraron alumnos.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
