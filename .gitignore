@@ -4,16 +4,17 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 
-# IDE
+# IDE - Eclipse/STS
+.settings/
+bin/
+.classpath
+.project
+
+# IDE - IntelliJ
 .idea/
-.vscode/
 *.iml
 *.ipr
 *.iws
-.classpath
-.project
-.settings/
-bin/
 
 # Sistema
 .DS_Store
@@ -22,7 +23,7 @@ Thumbs.db
 # Logs
 *.log
 
-# Temporales
+# Archivos temporales
 *.tmp
 *.bak
 *.swp

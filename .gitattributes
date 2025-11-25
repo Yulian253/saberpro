@@ -1,5 +1,9 @@
+
 <<<<<<< HEAD
-(tu versión local)
+/gradlew text eol=lf
+*.bat text eol=crlf
+*.jar binary
 =======
-(versión de GitHub)
->>>>>>> main
+# Auto detect text files and perform LF normalization
+* text=auto
+>>>>>>> 4089a70332fdff20adb3b095aababee9da815920
