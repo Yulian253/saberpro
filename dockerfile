@@ -2,7 +2,7 @@
 FROM gradle:8.5-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle clean build -x test
+RUN chmod +x ./gradlew && ./gradlew clean build -x test
 
 # Etapa 2: Runtime
 FROM eclipse-temurin:17-jdk-alpine
