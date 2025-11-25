@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe Detallado - Sistema Saber Pro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a th:href="@{/coordinador/dashboard}" class="navbar-brand">🎓 Sistema Saber Pro UTS</a>
+            <ul class="navbar-menu">
+                <li><a th:href="@{/coordinador/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/coordinador/alumnos}">Alumnos</a></li>
+                <li><a th:href="@{/coordinador/informes/basico}">Informes</a></li>
+            </ul>
+            <div class="navbar-user">
+                <span>👤 <span th:text="${usuarioNombre}">Usuario</span></span>
+                <a th:href="@{/logout}" class="btn-logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1 class="mt-4 mb-4" style="color: #0B4A75;">📊 Informe Detallado de Resultados</h1>
+
+        <div class="card mb-3">
+            <div class="d-flex gap-2">
+                <a th:href="@{/coordinador/informes/basico}" class="btn btn-secondary">📋 Básico</a>
+                <a th:href="@{/coordinador/informes/detallado}" class="btn btn-primary">📊 Detallado</a>
+                <a th:href="@{/coordinador/informes/beneficios}" class="btn btn-success">🎁 Beneficios</a>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-label">Total</div>
+                <div class="stat-card-value" th:text="${estadisticas.total}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Aprobados</div>
+                <div class="stat-card-value" style="color: #28A745;" th:text="${estadisticas.aprobados}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Reprobados</div>
+                <div class="stat-card-value" style="color: #DC3545;" th:text="${estadisticas.reprobados}">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-label">Anulados</div>
+                <div class="stat-card-value" style="color: #FFC107;" th:text="${estadisticas.anulados}">0</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Resultados Detallados</div>
+            
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Apellido</th>
+                            <th>Puntaje</th>
+                            <th>Estado</th>
+                            <th>Com. Escrita</th>
+                            <th>Raz. Cuant.</th>
+                            <th>Lect. Crítica</th>
+                            <th>Comp. Ciud.</th>
+                            <th>Inglés</th>
+                            <th>Form. Proy.</th>
+                            <th>Pens. Cient.</th>
+                            <th>Dis. Soft.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="resultado : ${resultados}">
+                            <td th:text="${resultado.alumno.primerApellido}">Apellido</td>
+                            <td>
+                                <strong th:if="${resultado.puntajeSaberPro != null}" th:text="${resultado.puntajeSaberPro}">0</strong>
+                                <span th:unless="${resultado.puntajeSaberPro != null}">-</span>
+                            </td>
+                            <td>
+                                <span class="badge" 
+                                      th:classappend="${resultado.estadoExamen.name() == 'APROBADO' ? 'badge-success' : (resultado.estadoExamen.name() == 'REPROBADO' ? 'badge-danger' : 'badge-warning')}"
+                                      th:text="${resultado.estadoExamen}">Estado</span>
+                            </td>
+                            <td th:text="${resultado.puntajeComunicacionEscrita ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeRazonamientoCuantitativo ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeLecturaCritica ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeCompetenciasCiudadanas ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeIngles ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeFormulacionProyectos ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajePensamientoCientifico ?: '-'}">0</td>
+                            <td th:text="${resultado.puntajeDisenoSoftware ?: '-'}">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
